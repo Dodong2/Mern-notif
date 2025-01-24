@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { showNotif } from './notifications/Notifs'
+import { showNotif, showNotifDelete } from './notifications/Notifs'
 import Axios from 'axios'
 import './App.css'
 
@@ -7,6 +7,7 @@ function App() {
   const [userLists, setUserLists] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [prevUserCount, setPrevUserCount] = useState(0)
 
 /* Refactored Approach */
   const handleInput = (e) => {
@@ -15,13 +16,34 @@ function App() {
     if( name === 'password' ) setPassword(value)
   }
 
+  const fetchUsers = async () => {
+    try{
+      const res = await Axios.get('http://localhost:3003/users/getUser')
+      setUserLists(res.data)
+
+      
+      if (res.data.length > prevUserCount) {
+        showNotif('New Upload', 'New data has been uploaded!')
+        setPrevUserCount(res.data.length)
+      }
+
+      if(res.data.length < prevUserCount) {
+        showNotif('uploads remove', 'A post remove from the user!')
+        setPrevUserCount(res.data.length)
+      }
+
+    } catch (error) {
+      console.error('Error fetching users: ', error)
+    }
+  }
+
 
 //get
   useEffect(() => {
-      Axios.get('http://localhost:3003/users/getUser').then((res) => {
-        setUserLists(res.data)
-      })
-  }, [])
+      fetchUsers()
+      const interval = setInterval(fetchUsers, 5000)
+      return () => clearInterval(interval)
+  }, [prevUserCount])
 
 //create
   const createUser = (e) => {
@@ -46,8 +68,12 @@ function App() {
   const deleteUser = (id) => {
     Axios.post(`http://localhost:3003/users/delete/${id}`).then(() => {
       setUserLists(userLists.filter(user => user._id !== id))
+
+      showNotifDelete('Success', 'User deleted successfully!')
+
     }).catch((err) => {
       console.log(err)
+      showNotifDelete('Error', 'Failed to create user. Please try again.')
     })
   }
 
