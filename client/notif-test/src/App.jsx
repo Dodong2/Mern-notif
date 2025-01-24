@@ -26,10 +26,10 @@ function App() {
     e.preventDefault()
     Axios.post('http://localhost:3003/users/createUser', { username: username, password: password }).then(() => {
       setUserLists([ ...userLists, {username, password}])
-    })
       setUsername('')
       setPassword('')
 
+      //notification
       if(Notification.permission === 'granted') {
         new Notification('Success', {
           body: 'User successfully created!',
@@ -43,7 +43,10 @@ function App() {
           }
         })
       }
-      
+    })
+    .catch((error) => {
+      console.error('Error creating user:',error)
+    })
   }
 
   return (
