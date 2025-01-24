@@ -16,9 +16,9 @@ router.get('/getUser', async(req, res) => {
 router.post('/createUser', async(req, res) => {
     try {
         const user = req.body
-        const newUser = UserModel(user)
-        await newUser.save()
-        res.status(200).json({ message: "successfully created", user })
+        const newUser = new UserModel(user)
+        const savedUser =  await newUser.save()
+        res.status(200).json({ message: "successfully created", user:savedUser })
     } catch(err) {
         console.log(err)
         res.status(500).json({ error: 'Database Error!' })
@@ -43,6 +43,9 @@ router.post('/updateUser/:id', async(req, res) => {
 router.post('/delete/:id', async(req, res) => {
     try {
         const { id } = req.params
+        if (!id) {
+            return res.status(400).json({ error: "Invalid ID" });
+        }
         const deleteUser = await UserModel.findByIdAndDelete(id)
         if(!deleteUser) {
             res.status(404).json({ error: "user not found" })
