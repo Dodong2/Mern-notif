@@ -18,15 +18,15 @@ function App() {
 
   const fetchUsers = async () => {
     try{
-      const res = await Axios.get('http://localhost:3003/users/getUser')
+      const res = await Axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/users/getUser`)
       setUserLists(res.data)
 
-      
+      /* para sa notif new data pangkalahatan */
       if (res.data.length > prevUserCount) {
         showNotif('New Upload', 'New data has been uploaded!')
         setPrevUserCount(res.data.length)
       }
-
+      /* para sa notif remove data pangkalahatan */
       if(res.data.length < prevUserCount) {
         showNotif('uploads remove', 'A post remove from the user!')
         setPrevUserCount(res.data.length)
@@ -48,7 +48,7 @@ function App() {
 //create
   const createUser = (e) => {
     e.preventDefault()
-    Axios.post('http://localhost:3003/users/createUser', { username: username, password: password }).then((res) => {
+    Axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/users/createUser`, { username: username, password: password }).then((res) => {
       const newUser = res.data.user
       setUserLists([ ...userLists, newUser])
       // console.log("Updated userLists:", [...userLists, newUser]);
@@ -66,7 +66,7 @@ function App() {
 
 //delete 
   const deleteUser = (id) => {
-    Axios.post(`http://localhost:3003/users/delete/${id}`).then(() => {
+    Axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/users/delete/${id}`).then(() => {
       setUserLists(userLists.filter(user => user._id !== id))
 
       showNotifDelete('Success', 'User deleted successfully!')
