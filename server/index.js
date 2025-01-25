@@ -17,7 +17,11 @@ mongoose.connect(MONGO_URI)
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'https://your-netlify-app.netlify.app', // Netlify URL or '*' to allow all
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
 
 // Routes
 const UserRoutes = require('./routes/Userlist');
