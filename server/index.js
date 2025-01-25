@@ -7,7 +7,7 @@ const cors = require('cors');
 
 // Use environment variables or defaults
 const PORT = process.env.PORT || 3003;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://carldong:notif123@cluster0.642xs.mongodb.net/notif?retryWrites=true&w=majority&appName=Cluster0';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://carldong:notif123@cluster0.642xs.mongodb.net/notif?retryWrites=true&w=majority&appName=Cluster0 ';
 /* mongodb+srv://carldong:notif123@cluster0.642xs.mongodb.net/notif?retryWrites=true&w=majority&appName=Cluster0 */
 // Connect to MongoDB
 mongoose.connect(MONGO_URI)
