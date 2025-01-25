@@ -1,1 +1,1 @@
-{ "rewrites": [{ "source": "/(.*)", "destination": "/client/notif-test/index.html" }] }
+{ "rewrites": [{ "source": "/(.*)", "destination": "./index.html" }] }
