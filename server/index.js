@@ -18,7 +18,7 @@ mongoose.connect(MONGO_URI)
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: 'https://mern-notif-dong.netlify.app/',
+    origin: 'https://mern-notif-dong.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }));
