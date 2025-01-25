@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { showNotif, showNotifDelete } from './notifications/Notifs'
+import { showNotif } from './notifications/Notifs'
 import Axios from 'axios'
 import './App.css'
 
@@ -16,6 +16,7 @@ function App() {
     if( name === 'password' ) setPassword(value)
   }
 
+  /* para mag notif lahat ng na upload at na remove */
   const fetchUsers = async () => {
     try{
       const res = await Axios.get(`http://localhost:3003/users/getUser`)
@@ -69,11 +70,11 @@ function App() {
     Axios.post(`http://localhost:3003/users/delete/${id}`).then(() => {
       setUserLists(userLists.filter(user => user._id !== id))
 
-      showNotifDelete('Success', 'User deleted successfully!')
+      showNotif('Success', 'User deleted successfully!')
 
     }).catch((err) => {
       console.log(err)
-      showNotifDelete('Error', 'Failed to create user. Please try again.')
+      showNotif('Error', 'Failed to create user. Please try again.')
     })
   }
 
